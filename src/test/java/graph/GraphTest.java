@@ -2,6 +2,7 @@ package graph;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import graph.Graph.Builder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -293,5 +294,16 @@ class GraphTest {
         .build();
 
     assertEquals(edges.size(), graph.size());
+  }
+
+  @Test
+  void testBuildGraphWithEdgesWithSameVertices() {
+    Edge edge1 = new Edge(0, 1, (float) 0.11);
+    Edge edge2 = new Edge(0, 1, (float) 0.12);
+    Graph.Builder builder = new Graph.Builder(2);
+
+    builder.addEdge(edge1);
+    builder.addEdge(edge2);
+    assertThrows(IllegalArgumentException.class, builder::build);
   }
 }

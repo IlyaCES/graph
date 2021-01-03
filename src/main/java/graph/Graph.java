@@ -17,8 +17,8 @@ public class Graph implements Iterable<Edge> {
     this.values = builder.values;
     this.size = builder.size;
 
-    // TODO: Исключение при добавлении одинаковых вершин
     sortGraph();
+    verifyEdgesWithSameVerticesAreAbsent();
   }
 
   public int size() {
@@ -148,6 +148,17 @@ public class Graph implements Iterable<Edge> {
     swapRows(i+1, end);
 
     return i+1;
+  }
+
+  private void verifyEdgesWithSameVerticesAreAbsent() {
+    for (int i = 0; i < size - 1; i++) {
+      if (vertices1[i] == vertices1[i+1] && vertices2[i] == vertices2[i+1]) {
+        Edge edge1 = new Edge(vertices1[i], vertices2[i], values[i]);
+        Edge edge2 = new Edge(vertices1[i+1], vertices2[i+1], values[i+1]);
+        throw new IllegalArgumentException("Edges with same vertices are not allowed. "
+            + edge1 + " has same vertices as " + edge2);
+      }
+    }
   }
 
   private void swapRows(int row1Index, int row2Index) {
