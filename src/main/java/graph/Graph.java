@@ -6,9 +6,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class Graph implements Iterable<Edge> {
-  private int[] vertices1;
-  private int[] vertices2;
-  private float[] values;
+  private final int[] vertices1;
+  private final int[] vertices2;
+  private final float[] values;
   private final int size;
 
   private Graph(Builder builder) {
@@ -27,7 +27,7 @@ public class Graph implements Iterable<Edge> {
 
   public Iterator<Edge> vertexIterator(int vertex) {
     return new Iterator<Edge>() {
-      int index = findVertexIndex(vertices1, vertex, 0, size - 1, false);
+      private int index = findVertexIndex(vertices1, vertex, 0, size - 1, false);
 
       @Override
       public boolean hasNext() {
@@ -49,7 +49,7 @@ public class Graph implements Iterable<Edge> {
   @Override
   public Iterator<Edge> iterator() {
     return new Iterator<Edge>() {
-      int index = 0;
+      private int index = 0;
 
       @Override
       public boolean hasNext() {
@@ -106,6 +106,13 @@ public class Graph implements Iterable<Edge> {
     }
 
     return res;
+  }
+
+  @Override
+  public String toString() {
+    return "Graph{" +
+        "size=" + size +
+        '}';
   }
 
   private void sortGraph() {
@@ -200,13 +207,13 @@ public class Graph implements Iterable<Edge> {
     }
 
     public Builder addEdge(Edge edge) {
-      edge = Objects.requireNonNull(edge, "Adding null edge");
+      edge = Objects.requireNonNull(edge, "Adding null edge at size = " + size);
       return addEdge(edge.getVertex1(), edge.getVertex2(),  edge.getValue());
     }
 
     public Builder addEdge(int vertex1, int vertex2, float value) {
       if (size >= capacity) {
-        throw new CapacityExceededException("Current capacity = " + capacity + " exceeded");
+        throw new CapacityExceededException("Capacity = " + capacity + " exceeded");
       }
 
       if (vertices1 == null || vertices2 == null || values == null) {

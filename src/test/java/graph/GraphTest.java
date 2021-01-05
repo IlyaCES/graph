@@ -2,7 +2,6 @@ package graph;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import graph.Graph.Builder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -82,12 +81,9 @@ class GraphTest {
   @ParameterizedTest
   @MethodSource("edgesForTest")
   void testGetEdgeValue(List<Edge> edges) {
-    Graph.Builder builder = new Graph.Builder(edges.size());
-
-    for (Edge edge : edges) {
-      builder.addEdge(edge);
-    }
-    Graph graph = builder.build();
+    Graph graph = new Graph.Builder(edges.size())
+        .addEdges(edges)
+        .build();
 
     for (Edge edge : edges) {
       Optional<Float> result = graph.getEdgeValue(edge.getVertex1(), edge.getVertex2());
@@ -122,12 +118,9 @@ class GraphTest {
   @ParameterizedTest
   @MethodSource("edgesForSortedTest")
   void testGraphSorted(List<Edge> edgesSorted, List<Edge> edgesShuffled) {
-    Graph.Builder builder = new Graph.Builder(edgesShuffled.size());
-
-    for (Edge edge : edgesShuffled) {
-      builder.addEdge(edge);
-    }
-    Graph graph = builder.build();
+    Graph graph = new Graph.Builder(edgesShuffled.size())
+        .addEdges(edgesShuffled)
+        .build();
 
     Iterator<Edge> graphIterator = graph.iterator();
     Iterator<Edge> edgesSortedIterator = edgesSorted.iterator();
