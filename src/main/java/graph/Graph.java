@@ -200,6 +200,7 @@ public class Graph implements Iterable<Edge> {
     }
 
     public Builder addEdges(Iterable<Edge> edges) {
+      edges = Objects.requireNonNull(edges, "Null iterator at size = " + size);
       for (Edge edge : edges) {
         addEdge(edge);
       }
